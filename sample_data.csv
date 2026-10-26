@@ -1,0 +1,201 @@
+Order Date,Order ID,Product Name,Category,Quantity,Unit Price,Advertising Spend,Sales,Region
+2025-01-04,ORD1001,Smart Watch,Electronics,3,150,497.29,1108.11,South
+2025-01-06,ORD1002,Dumbbell Set,Sports,4,70,752.87,1655.14,West
+2025-01-06,ORD1003,Backpack,Accessories,1,45,598.93,952.96,West
+2025-01-08,ORD1004,Denim Jacket,Fashion,2,65,401.47,727.82,West
+2025-01-09,ORD1005,Yoga Mat,Sports,1,25,698.03,975.64,South
+2025-01-13,ORD1006,Dumbbell Set,Sports,3,70,62.51,293.15,West
+2025-01-14,ORD1007,Dumbbell Set,Sports,4,70,829.18,1875.26,West
+2025-01-16,ORD1008,Air Fryer,Home,3,90,808.47,1587.44,North
+2025-01-18,ORD1009,Dumbbell Set,Sports,2,70,736.9,1326.66,North
+2025-01-19,ORD1010,Dumbbell Set,Sports,4,70,467.74,1140.6,West
+2025-01-21,ORD1011,Desk Lamp,Home,3,30,549.41,1086.75,West
+2025-01-23,ORD1012,Air Fryer,Home,4,90,224.3,570.51,West
+2025-01-23,ORD1013,Yoga Mat,Sports,4,25,367.54,670.91,West
+2025-01-25,ORD1014,Air Fryer,Home,1,90,796.58,1056.67,East
+2025-01-29,ORD1015,Desk Lamp,Home,2,30,920.21,1130.23,East
+2025-01-30,ORD1016,Desk Lamp,Home,3,30,127.96,284.92,North
+2025-01-31,ORD1017,Smart Watch,Electronics,1,150,450.62,919.26,South
+2025-02-02,ORD1018,Backpack,Accessories,1,45,605.18,1089.31,East
+2025-02-04,ORD1019,Phone Case,Accessories,1,12,325.23,655.75,West
+2025-02-04,ORD1020,Phone Case,Accessories,2,12,470.42,842.61,East
+2025-02-08,ORD1021,Smart Watch,Electronics,4,150,648.38,1922.54,East
+2025-02-07,ORD1022,Yoga Mat,Sports,4,25,395.27,688.53,North
+2025-02-10,ORD1023,Air Fryer,Home,1,90,86.75,248.28,North
+2025-02-11,ORD1024,Wireless Earbuds,Electronics,4,60,338.26,640.74,West
+2025-02-14,ORD1025,Dumbbell Set,Sports,2,70,180.04,397.59,South
+2025-02-16,ORD1026,Smart Watch,Electronics,4,150,71.08,650.36,North
+2025-02-17,ORD1027,Desk Lamp,Home,2,30,480.3,865.37,South
+2025-02-20,ORD1028,Yoga Mat,Sports,2,25,185.96,333.34,West
+2025-02-20,ORD1029,Smart Watch,Electronics,4,150,317.47,1044.77,West
+2025-02-22,ORD1030,Running Shoes,Fashion,4,80,201.04,639.95,East
+2025-02-25,ORD1031,Smart Watch,Electronics,2,150,250.51,777.42,West
+2025-02-25,ORD1032,Yoga Mat,Sports,2,25,914.69,1523.15,South
+2025-02-27,ORD1033,Smart Watch,Electronics,3,150,545.78,1155.26,East
+2025-02-28,ORD1034,Yoga Mat,Sports,2,25,132.32,236.95,North
+2025-03-01,ORD1035,Denim Jacket,Fashion,2,65,627.81,1155.44,North
+2025-03-03,ORD1036,Running Shoes,Fashion,3,80,186.87,557.22,East
+2025-03-05,ORD1037,Air Fryer,Home,1,90,92.15,205.26,East
+2025-03-08,ORD1038,Denim Jacket,Fashion,4,65,592.6,1430.34,East
+2025-03-09,ORD1039,Dumbbell Set,Sports,2,70,580.59,864.56,East
+2025-03-12,ORD1040,Yoga Mat,Sports,3,25,394.03,778.91,West
+2025-03-12,ORD1041,Wireless Earbuds,Electronics,3,60,672.72,1451.6,North
+2025-03-16,ORD1042,Running Shoes,Fashion,4,80,330.18,805.07,North
+2025-03-15,ORD1043,Smart Watch,Electronics,2,150,603.26,1125.94,East
+2025-03-17,ORD1044,Wireless Earbuds,Electronics,4,60,566.1,988.91,West
+2025-03-18,ORD1045,Backpack,Accessories,2,45,206.96,442.06,West
+2025-03-20,ORD1046,Running Shoes,Fashion,2,80,247.71,544.38,East
+2025-03-23,ORD1047,Phone Case,Accessories,1,12,803.99,1609.15,East
+2025-03-26,ORD1048,Denim Jacket,Fashion,3,65,91.19,342.01,North
+2025-03-28,ORD1049,Backpack,Accessories,2,45,883.78,1852.12,South
+2025-03-27,ORD1050,Yoga Mat,Sports,3,25,352.76,678.55,West
+2025-03-30,ORD1051,Dumbbell Set,Sports,3,70,210.99,600.58,East
+2025-04-01,ORD1052,Yoga Mat,Sports,4,25,763.78,1197.99,East
+2025-04-01,ORD1053,Phone Case,Accessories,1,12,948.92,1797.83,East
+2025-04-03,ORD1054,Dumbbell Set,Sports,1,70,909.54,1525.24,South
+2025-04-06,ORD1055,Yoga Mat,Sports,1,25,117.84,199.94,North
+2025-04-07,ORD1056,Dumbbell Set,Sports,2,70,187.61,428.59,West
+2025-04-09,ORD1057,Backpack,Accessories,1,45,811.05,1224.62,South
+2025-04-11,ORD1058,Yoga Mat,Sports,1,25,203.46,428.2,North
+2025-04-11,ORD1059,Denim Jacket,Fashion,1,65,374.88,694.84,South
+2025-04-15,ORD1060,Smart Watch,Electronics,3,150,480.95,1205.84,East
+2025-04-16,ORD1061,Smart Watch,Electronics,3,150,471.69,1105.08,East
+2025-04-18,ORD1062,Desk Lamp,Home,3,30,115.12,274.76,East
+2025-04-19,ORD1063,Running Shoes,Fashion,2,80,193.19,454.61,West
+2025-04-22,ORD1064,Air Fryer,Home,3,90,200.84,607.67,East
+2025-04-23,ORD1065,Denim Jacket,Fashion,4,65,796.78,1446.07,South
+2025-04-23,ORD1066,Air Fryer,Home,3,90,339.37,905.93,East
+2025-04-27,ORD1067,Phone Case,Accessories,3,12,253.21,366.95,East
+2025-04-27,ORD1068,Dumbbell Set,Sports,4,70,616.2,1169.74,West
+2025-05-01,ORD1069,Denim Jacket,Fashion,1,65,658.05,1325.47,South
+2025-04-30,ORD1070,Air Fryer,Home,3,90,629.89,1074.61,East
+2025-05-03,ORD1071,Yoga Mat,Sports,3,25,158.85,397.02,West
+2025-05-05,ORD1072,Desk Lamp,Home,3,30,50.7,206.02,East
+2025-05-07,ORD1073,Denim Jacket,Fashion,1,65,749.59,1335.66,East
+2025-05-06,ORD1074,Smart Watch,Electronics,2,150,530.45,1018.4,South
+2025-05-09,ORD1075,Desk Lamp,Home,2,30,591.53,1034.55,South
+2025-05-11,ORD1076,Smart Watch,Electronics,1,150,286.5,662.19,South
+2025-05-12,ORD1077,Desk Lamp,Home,3,30,352.64,659.1,East
+2025-05-13,ORD1078,Running Shoes,Fashion,1,80,625.67,1001.12,West
+2025-05-17,ORD1079,Backpack,Accessories,3,45,289.01,531.94,North
+2025-05-18,ORD1080,Air Fryer,Home,1,90,700.56,1224.54,East
+2025-05-21,ORD1081,Desk Lamp,Home,1,30,816.28,1316.83,East
+2025-05-22,ORD1082,Denim Jacket,Fashion,2,65,111.04,372.22,West
+2025-05-22,ORD1083,Smart Watch,Electronics,2,150,66.28,444.47,South
+2025-05-24,ORD1084,Yoga Mat,Sports,2,25,760.43,1257.73,East
+2025-05-27,ORD1085,Denim Jacket,Fashion,4,65,524.76,1121.22,South
+2025-05-29,ORD1086,Phone Case,Accessories,2,12,765.56,1449.4,North
+2025-05-29,ORD1087,Running Shoes,Fashion,3,80,896.29,1669.91,East
+2025-06-01,ORD1088,Phone Case,Accessories,4,12,193.15,414.29,West
+2025-06-04,ORD1089,Dumbbell Set,Sports,4,70,870.27,1649.16,North
+2025-06-03,ORD1090,Desk Lamp,Home,4,30,181.07,367.55,North
+2025-06-07,ORD1091,Wireless Earbuds,Electronics,1,60,361.25,759.59,East
+2025-06-09,ORD1092,Wireless Earbuds,Electronics,2,60,497.97,977.61,South
+2025-06-11,ORD1093,Phone Case,Accessories,2,12,244.43,357.54,West
+2025-06-11,ORD1094,Air Fryer,Home,4,90,819.11,1825.33,West
+2025-06-14,ORD1095,Yoga Mat,Sports,4,25,123.5,291.54,North
+2025-06-13,ORD1096,Denim Jacket,Fashion,2,65,144.78,436.61,West
+2025-06-17,ORD1097,Wireless Earbuds,Electronics,2,60,629.86,1023.45,East
+2025-06-17,ORD1098,Air Fryer,Home,1,90,473.68,788.17,South
+2025-06-21,ORD1099,Smart Watch,Electronics,2,150,549.28,1234.41,North
+2025-06-22,ORD1100,Yoga Mat,Sports,3,25,726.96,1203.58,North
+2025-06-23,ORD1101,Running Shoes,Fashion,3,80,73.88,376.7,North
+2025-06-25,ORD1102,Air Fryer,Home,4,90,598.14,1175.11,North
+2025-06-26,ORD1103,Smart Watch,Electronics,4,150,123.59,821.29,North
+2025-06-29,ORD1104,Dumbbell Set,Sports,1,70,706.52,976.39,West
+2025-06-29,ORD1105,Backpack,Accessories,3,45,692.44,1068.12,East
+2025-07-01,ORD1106,Air Fryer,Home,1,90,484.95,993.87,West
+2025-07-01,ORD1107,Dumbbell Set,Sports,4,70,479.38,1060.64,North
+2025-07-04,ORD1108,Yoga Mat,Sports,4,25,753.99,1194.61,West
+2025-07-07,ORD1109,Dumbbell Set,Sports,1,70,361.66,669.27,East
+2025-07-08,ORD1110,Backpack,Accessories,1,45,544.74,1081.32,West
+2025-07-08,ORD1111,Air Fryer,Home,1,90,262.33,466.38,East
+2025-07-13,ORD1112,Denim Jacket,Fashion,1,65,272.37,564.97,North
+2025-07-14,ORD1113,Desk Lamp,Home,1,30,363.66,627.95,North
+2025-07-14,ORD1114,Backpack,Accessories,4,45,82.78,342.69,North
+2025-07-16,ORD1115,Running Shoes,Fashion,1,80,468.96,955.58,South
+2025-07-17,ORD1116,Yoga Mat,Sports,2,25,490.69,864.44,West
+2025-07-20,ORD1117,Smart Watch,Electronics,2,150,68.61,450.37,South
+2025-07-21,ORD1118,Phone Case,Accessories,2,12,189.78,344.81,South
+2025-07-22,ORD1119,Desk Lamp,Home,1,30,57.24,188.18,South
+2025-07-24,ORD1120,Desk Lamp,Home,2,30,664.91,902.32,North
+2025-07-27,ORD1121,Air Fryer,Home,1,90,918.88,1608.89,East
+2025-07-28,ORD1122,Smart Watch,Electronics,1,150,631.76,1019.44,East
+2025-07-30,ORD1123,Dumbbell Set,Sports,2,70,319.26,659.12,South
+2025-08-01,ORD1124,Desk Lamp,Home,1,30,260.81,508.15,West
+2025-08-03,ORD1125,Smart Watch,Electronics,1,150,155.73,410.86,East
+2025-08-06,ORD1126,Wireless Earbuds,Electronics,4,60,593.75,1259.99,West
+2025-08-07,ORD1127,Dumbbell Set,Sports,1,70,127.57,261.04,West
+2025-08-08,ORD1128,Running Shoes,Fashion,4,80,740.09,1388.38,West
+2025-08-10,ORD1129,Desk Lamp,Home,3,30,822.6,1431.32,South
+2025-08-12,ORD1130,Backpack,Accessories,3,45,688.44,1470.15,East
+2025-08-12,ORD1131,Phone Case,Accessories,1,12,249.16,451.44,South
+2025-08-15,ORD1132,Dumbbell Set,Sports,3,70,869.9,1409.26,West
+2025-08-15,ORD1133,Backpack,Accessories,2,45,502.89,782.53,South
+2025-08-17,ORD1134,Air Fryer,Home,2,90,444.79,739.63,East
+2025-08-21,ORD1135,Wireless Earbuds,Electronics,3,60,551.21,1156.72,East
+2025-08-21,ORD1136,Dumbbell Set,Sports,3,70,796.83,1283.0,West
+2025-08-24,ORD1137,Yoga Mat,Sports,4,25,392.54,908.23,South
+2025-08-25,ORD1138,Yoga Mat,Sports,4,25,364.17,598.82,South
+2025-08-26,ORD1139,Phone Case,Accessories,4,12,602.17,1001.06,South
+2025-08-29,ORD1140,Denim Jacket,Fashion,1,65,536.27,885.81,West
+2025-08-31,ORD1141,Dumbbell Set,Sports,3,70,618.69,1182.35,East
+2025-08-30,ORD1142,Running Shoes,Fashion,1,80,128.01,282.81,West
+2025-09-01,ORD1143,Smart Watch,Electronics,1,150,792.33,1702.64,East
+2025-09-03,ORD1144,Dumbbell Set,Sports,2,70,153.4,403.88,North
+2025-09-04,ORD1145,Yoga Mat,Sports,4,25,725.76,1232.84,North
+2025-09-07,ORD1146,Desk Lamp,Home,4,30,95.82,374.41,West
+2025-09-08,ORD1147,Phone Case,Accessories,4,12,622.67,924.27,North
+2025-09-10,ORD1148,Denim Jacket,Fashion,2,65,49.98,256.14,West
+2025-09-13,ORD1149,Smart Watch,Electronics,2,150,372.05,962.87,East
+2025-09-15,ORD1150,Denim Jacket,Fashion,4,65,820.64,1743.28,South
+2025-09-16,ORD1151,Yoga Mat,Sports,4,25,270.28,552.15,West
+2025-09-18,ORD1152,Running Shoes,Fashion,2,80,684.03,1071.76,East
+2025-09-19,ORD1153,Running Shoes,Fashion,3,80,140.39,425.19,East
+2025-09-21,ORD1154,Denim Jacket,Fashion,1,65,641.52,1089.21,West
+2025-09-24,ORD1155,Smart Watch,Electronics,3,150,831.13,1803.28,East
+2025-09-25,ORD1156,Dumbbell Set,Sports,4,70,366.02,840.02,East
+2025-09-26,ORD1157,Desk Lamp,Home,1,30,367.75,776.57,East
+2025-09-27,ORD1158,Yoga Mat,Sports,1,25,145.7,277.53,East
+2025-09-28,ORD1159,Wireless Earbuds,Electronics,2,60,238.64,574.85,West
+2025-09-30,ORD1160,Smart Watch,Electronics,1,150,303.07,566.27,North
+2025-10-04,ORD1161,Smart Watch,Electronics,1,150,948.97,1294.88,West
+2025-10-05,ORD1162,Yoga Mat,Sports,1,25,728.35,1125.17,West
+2025-10-05,ORD1163,Backpack,Accessories,1,45,417.33,933.63,South
+2025-10-07,ORD1164,Dumbbell Set,Sports,4,70,691.44,1406.89,West
+2025-10-09,ORD1165,Desk Lamp,Home,2,30,753.83,1493.92,West
+2025-10-11,ORD1166,Backpack,Accessories,3,45,916.65,1377.55,South
+2025-10-12,ORD1167,Running Shoes,Fashion,1,80,846.76,1340.14,North
+2025-10-13,ORD1168,Wireless Earbuds,Electronics,3,60,565.07,963.03,East
+2025-10-15,ORD1169,Smart Watch,Electronics,3,150,530.54,1429.9,West
+2025-10-19,ORD1170,Yoga Mat,Sports,3,25,755.75,1088.03,East
+2025-10-20,ORD1171,Smart Watch,Electronics,4,150,268.75,968.02,South
+2025-10-22,ORD1172,Denim Jacket,Fashion,4,65,98.77,479.16,North
+2025-10-22,ORD1173,Yoga Mat,Sports,3,25,811.23,1484.91,North
+2025-10-24,ORD1174,Running Shoes,Fashion,2,80,284.1,800.43,North
+2025-10-28,ORD1175,Backpack,Accessories,3,45,152.43,391.17,East
+2025-10-30,ORD1176,Running Shoes,Fashion,3,80,159.16,522.85,North
+2025-10-29,ORD1177,Running Shoes,Fashion,4,80,121.97,537.35,North
+2025-11-02,ORD1178,Denim Jacket,Fashion,2,65,65.23,272.22,West
+2025-11-03,ORD1179,Denim Jacket,Fashion,2,65,78.89,318.33,West
+2025-11-04,ORD1180,Air Fryer,Home,1,90,609.07,1114.95,East
+2025-11-06,ORD1181,Yoga Mat,Sports,3,25,765.82,1427.33,North
+2025-11-06,ORD1182,Air Fryer,Home,4,90,889.35,1794.28,West
+2025-11-10,ORD1183,Air Fryer,Home,1,90,689.53,982.86,North
+2025-11-10,ORD1184,Backpack,Accessories,4,45,245.26,650.77,North
+2025-11-13,ORD1185,Smart Watch,Electronics,1,150,713.4,1243.37,South
+2025-11-15,ORD1186,Backpack,Accessories,3,45,203.22,562.28,West
+2025-11-17,ORD1187,Backpack,Accessories,1,45,400.85,777.44,West
+2025-11-17,ORD1188,Running Shoes,Fashion,3,80,930.38,1986.33,East
+2025-11-20,ORD1189,Yoga Mat,Sports,1,25,818.77,1327.62,South
+2025-11-21,ORD1190,Backpack,Accessories,3,45,606.25,1381.82,East
+2025-11-24,ORD1191,Smart Watch,Electronics,1,150,291.05,717.02,North
+2025-11-24,ORD1192,Air Fryer,Home,4,90,717.71,1604.94,North
+2025-11-26,ORD1193,Wireless Earbuds,Electronics,2,60,264.9,558.36,South
+2025-11-27,ORD1194,Running Shoes,Fashion,3,80,52.31,377.57,West
+2025-11-30,ORD1195,Running Shoes,Fashion,4,80,935.36,1543.06,South
+2025-11-30,ORD1196,Running Shoes,Fashion,3,80,401.86,1018.67,West
+2025-12-01,ORD1197,Yoga Mat,Sports,1,25,712.16,883.07,North
+2025-12-05,ORD1198,Denim Jacket,Fashion,2,65,56.97,306.4,North
+2025-12-07,ORD1199,Desk Lamp,Home,1,30,220.86,378.38,South
+2025-12-07,ORD1200,Wireless Earbuds,Electronics,3,60,452.21,1134.93,West

@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport" />
+    <title>
+        E-Commerce Sales Trend Analysis using Simple Linear Regression
+    </title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Press+Start+2P&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+    </script>
+    <!-- CSS STYLES: layout, colours, responsiveness, charts and animations -->
+    <style>
+        :root {
+            --blue: #1f6fd1;
+            --cyan: #2bc4e8;
+            --coral: #ff5a4d;
+            --orange: #ff9f1c;
+            --pink: #ff4fa3;
+            --yellow: #ffd60a;
+            --mint: #3ddc97;
+            --cream: #fff4d6;
+            --ink: #1b1b2f;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            color-scheme: light
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 70px
+        }
+
+        body {
+            margin: 0;
+            font: 400 16px/1.55 'Montserrat', system-ui, sans-serif;
+            color: var(--ink);
+            background: var(--blue);
+            background-image: radial-gradient(rgba(255, 255, 255, .14) 1.5px, transparent 1.5px);
+            background-size: 18px 18px;
+            overflow-x: hidden
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0
+        }
+
+        .px {
+            font-family: 'Press Start 2P', monospace;
+            font-size: .62rem;
+            line-height: 1.6
+        }
+
+        a {
+            color: inherit
+        }
+
+        section {
+            padding: 64px 18px;
+            max-width: 1180px;
+            margin: auto;
+            position: relative
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            color: var(--yellow);
+            text-shadow: 4px 4px 0 var(--ink);
+            -webkit-text-stroke: 1.5px var(--ink);
+            letter-spacing: .5px;
+            margin-bottom: 6px
+        }
+
+        .sub {
+            color: #fff;
+            margin: 0 0 22px;
+            max-width: 760px
+        }
+
+        .card {
+            background: var(--cream);
+            border: 3px solid var(--ink);
+            border-radius: 16px;
+            box-shadow: 6px 6px 0 var(--ink);
+            padding: 16px;
+            transition: transform .15s, box-shadow .15s
+        }
+
+        .card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 var(--ink)
+        }
+
+        .btn {
+            font: 700 .95rem 'Space Grotesk', sans-serif;
+            border: 3px solid var(--ink);
+            border-radius: 12px;
+            padding: 10px 18px;
+            background: var(--yellow);
+            color: var(--ink);
+            box-shadow: 4px 4px 0 var(--ink);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform .12s, box-shadow .12s
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--ink)
+        }
+
+        .btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 var(--ink)
+        }
+
+        .btn.pink {
+            background: var(--pink);
+            color: #fff
+        }
+
+        .btn.sm {
+            padding: 6px 12px;
+            font-size: .8rem
+        }
+
+        :focus-visible {
+            outline: 4px solid var(--ink);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 7px var(--yellow)
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--ink);
+            border-bottom: 4px solid var(--pink);
+            padding: 10px 18px;
+            padding-top: calc(10px + env(safe-area-inset-top, 0px))
+        }
+
+        nav div.in {
+            max-width: 1180px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        nav .logo {
+            color: var(--yellow)
+        }
+
+        nav ul {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font: 700 .85rem 'Space Grotesk';
+            padding: 6px 10px;
+            border-radius: 8px
+        }
+
+        nav a:hover {
+            background: var(--pink)
+        }
+
+        #burger {
+            display: none
+        }
+
+        @media(max-width:860px) {
+            #burger {
+                display: block
+            }
+
+            nav ul {
+                display: none;
+                width: 100%;
+                flex-direction: column
+            }
+
+            nav ul.open {
+                display: flex
+            }
+
+            nav div.in {
+                flex-wrap: wrap
+            }
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 30px;
+            align-items: center;
+            padding-top: 50px
+        }
+
+        @media(max-width:860px) {
+            .hero {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--coral);
+            color: #fff;
+            border: 3px solid var(--ink);
+            padding: 8px 12px;
+            box-shadow: 3px 3px 0 var(--ink);
+            margin-bottom: 14px
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 7vw, 4.4rem);
+            line-height: 1;
+            color: var(--yellow);
+            text-shadow: 5px 5px 0 var(--ink), 0 0 0 var(--pink);
+            -webkit-text-stroke: 2px var(--ink);
+            text-transform: uppercase
+        }
+
+        .hero h1 span {
+            color: var(--pink)
+        }
+
+        .hero p {
+            color: #fff;
+            font-size: 1.1rem
+        }
+
+        .screen {
+            background: var(--cream);
+            border: 4px solid var(--ink);
+            border-radius: 22px;
+            padding: 18px;
+            box-shadow: 8px 8px 0 var(--ink);
+            position: relative
+        }
+
+        .screen .glass {
+            background: linear-gradient(#5bd3f0, #2bc4e8);
+            border: 4px solid var(--ink);
+            border-radius: 8px;
+            height: 230px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding: 14px;
+            position: relative;
+            overflow: hidden;
+            image-rendering: pixelated
+        }
+
+        .screen .bar {
+            flex: 1;
+            background: var(--coral);
+            border: 3px solid var(--ink);
+            transform-origin: bottom;
+            animation: grow 1.2s ease-out both, pulse 3s 1.2s ease-in-out infinite
+        }
+
+        .screen .bar:nth-child(even) {
+            background: var(--yellow)
+        }
+
+        .screen .bar:nth-child(3n) {
+            background: var(--pink)
+        }
+
+        .screen .hp {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            color: var(--ink)
+        }
+
+        .keys {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            margin-top: 12px
+        }
+
+        .keys i {
+            height: 14px;
+            border: 2px solid var(--ink);
+            background: var(--coral)
+        }
+
+        .keys i:nth-child(3n) {
+            background: var(--yellow)
+        }
+
+        .keys i:nth-child(4n) {
+            background: var(--mint)
+        }
+
+        @keyframes grow {
+            from {
+                transform: scaleY(0)
+            }
+        }
+
+        @keyframes pulse {
+            50% {
+                transform: scaleY(.88)
+            }
+        }
+
+        @keyframes fl {
+            50% {
+                transform: translateY(-14px) rotate(12deg)
+            }
+        }
+
+        .dec {
+            position: absolute;
+            z-index: 0;
+            animation: fl 4s ease-in-out infinite;
+            pointer-events: none
+        }
+
+        .star {
+            clip-path: polygon(50% 0, 62% 36%, 100% 38%, 70% 60%, 80% 100%, 50% 76%, 20% 100%, 30% 60%, 0 38%, 38% 36%)
+        }
+
+        .bolt {
+            clip-path: polygon(40% 0, 100% 0, 65% 40%, 95% 40%, 25% 100%, 40% 55%, 5% 55%)
+        }
+
+        @media(max-width:700px) {
+            .dec {
+                display: none
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important
+            }
+        }
+
+        .reveal {
+            animation: up .6s ease-out both
+        }
+
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(18px)
+            }
+        }
+
+        .grid4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px
+        }
+
+        .stat .v {
+            font: 700 2rem 'Space Grotesk';
+            word-break: break-word
+        }
+
+        .stat .l {
+            color: #444
+        }
+
+        .stat {
+            border-top: 10px solid var(--c, var(--coral))
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border: 2px solid var(--ink);
+            background: var(--yellow);
+            font: .55rem 'Press Start 2P';
+            margin-bottom: 10px
+        }
+
+        .tag.up {
+            background: var(--mint)
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 18px
+        }
+
+        label {
+            font: 700 .8rem 'Space Grotesk';
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            color: inherit
+        }
+
+        input,
+        select {
+            font: inherit;
+            padding: 8px;
+            border: 3px solid var(--ink);
+            border-radius: 10px;
+            background: #fff;
+            color: var(--ink);
+            max-width: 100%
+        }
+
+        .charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+            gap: 18px
+        }
+
+        .cw {
+            position: relative;
+            height: 280px
+        }
+
+        .cw canvas {
+            max-width: 100%
+        }
+
+        .note {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            color: #a00;
+            font-weight: 600
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 8px
+        }
+
+        .lab {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 18px
+        }
+
+        @media(max-width:900px) {
+            .lab {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .eq {
+            background: var(--ink);
+            color: var(--yellow);
+            font: .8rem 'Press Start 2P';
+            padding: 14px;
+            border-radius: 10px;
+            line-height: 1.8;
+            overflow-x: auto
+        }
+
+        .mets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin: 12px 0
+        }
+
+        .mets div {
+            background: #fff;
+            border: 3px solid var(--ink);
+            border-radius: 10px;
+            padding: 8px
+        }
+
+        .mets b {
+            display: block;
+            font-size: 1.2rem
+        }
+
+        .mets small {
+            color: #555
+        }
+
+        .res {
+            background: var(--pink);
+            color: #fff;
+            border: 4px solid var(--ink);
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: 10px;
+            box-shadow: 4px 4px 0 var(--ink)
+        }
+
+        .res b {
+            font: 700 1.8rem 'Space Grotesk'
+        }
+
+        .warn {
+            background: #fff0a8;
+            border: 3px dashed var(--ink);
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 8px
+        }
+
+        .err {
+            background: #ffd0cc;
+            border: 3px solid var(--coral);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0
+        }
+
+        .tw {
+            overflow-x: auto;
+            max-height: 380px;
+            border: 3px solid var(--ink);
+            border-radius: 10px;
+            background: #fff
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: .85rem
+        }
+
+        th,
+        td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap
+        }
+
+        th {
+            background: var(--ink);
+            color: var(--yellow);
+            position: sticky;
+            top: 0;
+            cursor: pointer
+        }
+
+        .map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin: 12px 0
+        }
+
+        .ins {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px
+        }
+
+        .ins .card {
+            border-left: 14px solid var(--c)
+        }
+
+        .ins .ic {
+            font-size: 1.6rem
+        }
+
+        .pipe {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            align-items: stretch;
+            margin-bottom: 22px
+        }
+
+        .pipe div {
+            flex: 1;
+            min-width: 110px;
+            padding: 12px 6px;
+            border: 3px solid var(--ink);
+            background: var(--c);
+            text-align: center;
+            font: .55rem 'Press Start 2P';
+            line-height: 1.7;
+            position: relative;
+            margin-right: 18px
+        }
+
+        .pipe div:after {
+            content: '';
+            position: absolute;
+            right: -18px;
+            top: 50%;
+            width: 18px;
+            border-top: 4px solid var(--ink)
+        }
+
+        .pipe div:last-child:after {
+            display: none
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px
+        }
+
+        footer {
+            background: var(--ink);
+            color: #fff;
+            padding: 36px 18px;
+            border-top: 6px solid var(--pink);
+            text-align: center
+        }
+
+        footer p {
+            margin: 6px 0
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="in">
+            <span class="px logo">
+                SALES SIMULATOR
+            </span>
+            <button aria-expanded="false" aria-label="Menu" class="btn sm" id="burger">
+                MENU
+            </button>
+            <ul id="menu">
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#overview">
+                        Overview
+                    </a>
+                </li>
+                <li>
+                    <a href="#dashboard">
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#lab">
+                        Regression
+                    </a>
+                </li>
+                <li>
+                    <a href="#explorer">
+                        Data
+                    </a>
+                </li>
+                <li>
+                    <a href="#insights">
+                        Insights
+                    </a>
+                </li>
+                <li>
+                    <a href="#method">
+                        Method
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section class="hero" id="home">
+        <i class="dec star" style="width:44px;height:44px;background:var(--yellow);top:30px;left:46%">
+        </i>
+        <i class="dec bolt"
+            style="width:40px;height:50px;background:var(--orange);bottom:40px;left:2%;animation-delay:1s">
+        </i>
+        <i class="dec star" style="width:30px;height:30px;background:var(--pink);top:10px;right:6%;animation-delay:.6s">
+        </i>
+        <div class="reveal" style="position:relative;z-index:1">
+            <span class="badge px">
+                DATA MINING &amp; ANALYSIS PROJECT
+            </span>
+            <h1>
+                Sell smarter.
+                <br />
+                <span>
+                    See the trends.
+                </span>
+            </h1>
+            <p>
+                Turn e-commerce data into actionable business insights with interactive sales analytics and machine
+                learning-powered regression.
+            </p>
+            <p class="px" style="color:var(--yellow)">
+                E-Commerce Sales Trend Analysis using Simple Linear Regression
+            </p>
+            <p>
+                <a class="btn" href="#dashboard">
+                    Explore Analytics
+                </a>
+                <a class="btn pink" href="#lab">
+                    Try Regression
+                </a>
+            </p>
+        </div>
+        <div aria-hidden="true" class="screen reveal">
+            <div class="glass">
+                <span class="px hp">
+                    HP ♥♥♥ REVENUE
+                </span>
+                <div class="bar" style="height:30%">
+                </div>
+                <div class="bar" style="height:45%;animation-delay:.1s">
+                </div>
+                <div class="bar" style="height:38%;animation-delay:.2s">
+                </div>
+                <div class="bar" style="height:62%;animation-delay:.3s">
+                </div>
+                <div class="bar" style="height:55%;animation-delay:.4s">
+                </div>
+                <div class="bar" style="height:78%;animation-delay:.5s">
+                </div>
+                <div class="bar" style="height:90%;animation-delay:.6s">
+                </div>
+            </div>
+            <div class="keys">
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+                <i>
+                </i>
+            </div>
+        </div>
+    </section>
+    <section id="overview">
+        <h2>
+            Project Overview
+        </h2>
+        <p class="sub">
+            We mine e-commerce order data to find
+            <b>
+                what sells, when it sells, and why
+            </b>
+            . Exploratory data analysis (EDA) reveals patterns, charts make them visible, and Simple Linear Regression
+            measures how advertising spend relates to revenue, so managers can plan budgets with evidence instead of
+            guesses.
+        </p>
+        <span class="tag" id="srcTag">
+            DEMO DATA
+        </span>
+        <div class="grid4" id="stats">
+        </div>
+    </section>
+    <section id="dashboard">
+        <h2>
+            Sales Trend Dashboard
+        </h2>
+        <p class="sub">
+            Every chart is computed from the currently loaded dataset and filtered rows.
+        </p>
+        <div class="card filters" style="box-shadow:4px 4px 0 var(--ink)">
+            <label>
+                From
+                <input id="fFrom" type="date" />
+            </label>
+            <label>
+                To
+                <input id="fTo" type="date" />
+            </label>
+            <label>
+                Category
+                <select id="fCat">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+            </label>
+            <label>
+                Search product
+                <input id="fQ" placeholder="e.g. headphones" type="search" />
+            </label>
+            <button class="btn sm" id="fReset">
+                Clear filters
+            </button>
+            <span class="px" id="fInfo">
+            </span>
+        </div>
+        <div class="charts">
+            <div class="card">
+                <h3>
+                    Sales Over Time (monthly revenue)
+                </h3>
+                <div class="cw">
+                    <canvas id="c1">
+                    </canvas>
+                    <p class="note" id="c1n">
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>
+                    Revenue by Category
+                </h3>
+                <div class="cw">
+                    <canvas id="c2">
+                    </canvas>
+                    <p class="note" id="c2n">
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>
+                    Top-Selling Products (revenue)
+                </h3>
+                <div class="cw">
+                    <canvas id="c3">
+                    </canvas>
+                    <p class="note" id="c3n">
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>
+                    Orders by Category
+                </h3>
+                <div class="cw">
+                    <canvas id="c4">
+                    </canvas>
+                    <p class="note" id="c4n">
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>
+                    Sales Distribution (order value)
+                </h3>
+                <div class="cw">
+                    <canvas id="c5">
+                    </canvas>
+                    <p class="note" id="c5n">
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>
+                    Revenue vs Advertising Spend
+                </h3>
+                <div class="cw">
+                    <canvas id="c6">
+                    </canvas>
+                    <p class="note" id="c6n">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="lab">
+        <h2>
+            Simple Linear Regression Lab
+        </h2>
+        <p class="sub">
+            Least-squares fit of
+            <b>
+                ŷ = b₀ + b₁x
+            </b>
+            using the filtered rows. Rows with a missing or non-numeric X or Y are excluded (never turned into zero) and
+            counted below.
+        </p>
+        <div class="card filters" style="box-shadow:4px 4px 0 var(--ink)">
+            <label>
+                X (independent)
+                <select id="rx">
+                </select>
+            </label>
+            <label>
+                Y (dependent)
+                <select id="ry">
+                </select>
+            </label>
+            <button class="btn sm" id="selfTest">
+                Verify with known values
+            </button>
+            <span id="stOut">
+            </span>
+        </div>
+        <div id="rErr">
+        </div>
+        <div class="lab">
+            <div class="card">
+                <h3>
+                    Observed data &amp; line of best fit
+                </h3>
+                <div class="cw" style="height:340px">
+                    <canvas id="r1">
+                    </canvas>
+                </div>
+                <h3 style="margin-top:14px">
+                    Residuals (actual − predicted)
+                </h3>
+                <div class="cw" style="height:230px">
+                    <canvas id="r2">
+                    </canvas>
+                </div>
+            </div>
+            <div>
+                <div class="card">
+                    <div class="eq" id="eq">
+                        –
+                    </div>
+                    <div class="mets" id="mets">
+                    </div>
+                    <p id="rUse" style="font-size:.85rem">
+                    </p>
+                </div>
+                <div class="card" style="margin-top:18px">
+                    <h3>
+                        Try a Prediction
+                    </h3>
+                    <label>
+                        Enter X
+                        <input id="pin" step="any" type="number" />
+                    </label>
+                    <input id="psl" style="width:100%;margin-top:8px;padding:0" type="range" />
+                    <div class="res">
+                        Predicted Y
+                        <br />
+                        <b id="pout">
+                            –
+                        </b>
+                    </div>
+                    <div id="pwarn">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid4" style="margin-top:18px">
+            <div class="card">
+                <h3>
+                    R²
+                </h3>
+                <p>
+                    Share of the ups and downs in Y that the line explains. 1 = perfect, 0 = no better than the average.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    MAE
+                </h3>
+                <p>
+                    Average size of the prediction mistakes, in the same units as Y.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    RMSE
+                </h3>
+                <p>
+                    Like MAE but big mistakes count extra. It is always ≥ MAE.
+                </p>
+            </div>
+            <div class="card" style="background:#fff0a8">
+                <h3>
+                    Careful!
+                </h3>
+                <p>
+                    Regression shows association,
+                    <b>
+                        not causation
+                    </b>
+                    . Metrics here are computed on the same data used to fit, so they do not prove future accuracy.
+                </p>
+            </div>
+        </div>
+        <div class="card" style="margin-top:18px">
+            <h3>
+                Actual vs Predicted (first 10 observations)
+            </h3>
+            <div class="tw">
+                <table id="avp">
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="explorer">
+        <h2>
+            Data Explorer
+        </h2>
+        <p class="sub">
+            Upload your own CSV; it is parsed in your browser and never sent anywhere. All charts, the lab and insights
+            then switch to your file.
+        </p>
+        <div class="card">
+            <div class="filters">
+                <label>
+                    Upload CSV
+                    <input accept=".csv,text/csv,text/plain" id="file" type="file" />
+                </label>
+                <button class="btn sm pink" id="resetDemo">
+                    Reset to demo dataset
+                </button>
+                <label>
+                    Search rows
+                    <input id="eq2" placeholder="search..." type="search" />
+                </label>
+            </div>
+            <div id="upErr">
+            </div>
+            <p id="meta">
+            </p>
+            <h3>
+                Column mapping
+                <span style="font-weight:400;font-size:.85rem">
+                    (auto-detected, change if wrong)
+                </span>
+            </h3>
+            <div class="map" id="map">
+            </div>
+            <div class="tw">
+                <table id="tbl">
+                </table>
+            </div>
+            <h3 style="margin-top:16px">
+                Descriptive statistics (numeric columns)
+            </h3>
+            <div class="tw">
+                <table id="desc">
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="insights">
+        <h2>
+            Business Insights
+        </h2>
+        <p class="sub">
+            Generated live from the filtered data's calculated statistics.
+        </p>
+        <div class="ins" id="insBox">
+        </div>
+    </section>
+    <section id="method">
+        <h2>
+            Methodology
+        </h2>
+        <div class="pipe">
+            <div style="--c:var(--cyan)">
+                COLLECT
+            </div>
+            <div style="--c:var(--mint)">
+                CLEAN
+            </div>
+            <div style="--c:var(--yellow)">
+                EDA
+            </div>
+            <div style="--c:var(--orange)">
+                VISUALIZE
+            </div>
+            <div style="--c:var(--pink)">
+                REGRESS
+            </div>
+            <div style="--c:var(--coral)">
+                EVALUATE
+            </div>
+            <div style="--c:var(--cream)">
+                INTERPRET
+            </div>
+        </div>
+        <div class="steps">
+            <div class="card">
+                <h3>
+                    1. Data collection
+                </h3>
+                <p>
+                    Order-level records: date, product, category, quantity, price, revenue, advertising spend.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    2. Cleaning &amp; preprocessing
+                </h3>
+                <p>
+                    Parse dates and numbers, drop invalid X/Y pairs from the model (and report how many), derive revenue
+                    = quantity × price when needed.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    3. Exploratory analysis
+                </h3>
+                <p>
+                    Mean, median, spread, missing values and column types reveal data quality and shape.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    4. Trend visualization
+                </h3>
+                <p>
+                    Monthly revenue, category and product rankings, distribution and scatter plots.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    5. Simple Linear Regression
+                </h3>
+                <p>
+                    b₁ = Σ(x−x̄)(y−ȳ) / Σ(x−x̄)², b₀ = ȳ − b₁x̄ (least squares).
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    6. Model evaluation
+                </h3>
+                <p>
+                    R², MAE, RMSE and residual plots check fit and spot patterns the line misses.
+                </p>
+            </div>
+            <div class="card">
+                <h3>
+                    7. Business interpretation
+                </h3>
+                <p>
+                    Translate slope and trends into plain advice, noting limits and non-causality.
+                </p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p class="px" style="color:var(--yellow)">
+            E-COMMERCE SALES TREND ANALYSIS USING SIMPLE LINEAR REGRESSION
+        </p>
+        <p>
+            Built for Data Mining &amp; Analysis
+        </p>
+        <p>
+            Tech: HTML · CSS · JavaScript · Chart.js · PapaParse
+        </p>
+        <p>
+            By Teena Vishwakarma
+        </p>
+        <button class="btn sm" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+            ↑ Back to top
+        </button>
+    </footer>
+    <!-- JAVASCRIPT: dataset handling, charts, regression, filters and interactions -->
+    <script>
+        const $ = s => document.querySelector(s), P = ['#ff5a4d', '#ff4fa3', '#ffd60a', '#3ddc97', '#2bc4e8', '#ff9f1c', '#7b61ff', '#1f6fd1'];
+
+        const f0 = n => isFinite(n) ? n.toLocaleString('en-US', { maximumFractionDigits: 0 }) : '–',
+              f2 = n => isFinite(n) ? n.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '–';
+
+        const num = v => {
+            if (v == null) return NaN;
+            const s = String(v).replace(/[$,₹€£%,\s]/g, '');
+            return s === '' ? NaN : Number(s);
+        };
+
+        const sum = a => a.reduce((x, y) => x + y, 0);
+        const esc = s => s == null ? '' : String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+        const S = { cols: [], raw: [], m: {}, demo: true, name: 'demo', rows: [], F: [] };
+
+        $('#burger').onclick = () => {
+            const o = $('#menu').classList.toggle('open');
+            $('#burger').setAttribute('aria-expanded', String(o));
+        };
+
+        document.querySelectorAll('#menu a').forEach(a => {
+            a.onclick = () => {
+                $('#menu').classList.remove('open');
+                $('#burger').setAttribute('aria-expanded', 'false');
+            };
+        });
+
+        function demoData() {
+            let s = 2026;
+            const R = () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296;
+
+            const P_ = [
+                ['Wireless Earbuds', 'Electronics', 60],
+                ['Smart Watch', 'Electronics', 150],
+                ['Phone Case', 'Accessories', 12],
+                ['Backpack', 'Accessories', 45],
+                ['Running Shoes', 'Fashion', 80],
+                ['Denim Jacket', 'Fashion', 65],
+                ['Air Fryer', 'Home', 90],
+                ['Desk Lamp', 'Home', 30],
+                ['Yoga Mat', 'Sports', 25],
+                ['Dumbbell Set', 'Sports', 70]
+            ];
+
+            const raw = [];
+            for (let i = 0; i < 480; i++) {
+                const p = P_[Math.floor(R() * P_.length)];
+                const q = 1 + Math.floor(R() * 4);
+                const ad = 40 + R() * 900;
+                const d = new Date(2025, 0, 1 + Math.floor(i * 1.5 + R() * 2));
+                const sales = Math.round((p[2] * q * (0.8 + R() * 0.4) + ad * (1.1 + R() * 0.9) + i * 0.35) * 100) / 100;
+
+                raw.push({
+                    'Order Date': d.toISOString().slice(0, 10),
+                    'Order ID': 'ORD' + (1000 + i),
+                    'Product Name': p[0],
+                    'Category': p[1],
+                    'Quantity': q,
+                    'Unit Price': p[2],
+                    'Advertising Spend': Math.round(ad * 100) / 100,
+                    'Sales': sales,
+                    'Region': ['North', 'South', 'East', 'West'][Math.floor(R() * 4)]
+                });
+            }
+            return raw;
+        }
+
+        function find(re, ex) {
+            return S.cols.find(c => re.test(c) && !(ex && ex.test(c))) || '';
+        }
+
+        function detect() {
+            const ad = /advert|marketing|ad[\s_]?spend/i;
+            S.m = {
+                date: find(/date/i),
+                cat: find(/categor/i),
+                prod: find(/product|item/i),
+                order: find(/order[\s_]?id|^order$/i),
+                sales: find(/revenue|sales|amount|total/i, ad),
+                ad: find(ad),
+                qty: find(/qty|quantity/i),
+                price: find(/price/i)
+            };
+        }
+
+        function derive() {
+            S.raw.forEach(r => delete r['Revenue (derived)']);
+            S.cols = S.cols.filter(c => c !== 'Revenue (derived)');
+            detect();
+
+            if (!S.m.sales && S.m.qty && S.m.price) {
+                S.raw.forEach(r => {
+                    const v = num(r[S.m.qty]) * num(r[S.m.price]);
+                    r['Revenue (derived)'] = isFinite(v) ? v : '';
+                });
+                S.cols.push('Revenue (derived)');
+                S.m.sales = 'Revenue (derived)';
+            }
+        }
+
+        function numCols() {
+            return S.cols.filter(c => {
+                const v = S.raw.map(r => r[c]).filter(x => x !== '' && x != null);
+                return v.length && v.filter(x => isFinite(num(x))).length / v.length >= 0.8;
+            });
+        }
+
+        function parseDate(val) {
+            if (!val) return null;
+            const str = String(val).trim();
+            const d = new Date(str.length === 10 ? str + 'T00:00:00' : str);
+            return (d instanceof Date && !isNaN(d.getTime())) ? d : null;
+        }
+
+        function build() {
+            const m = S.m;
+            S.rows = S.raw.map(r => {
+                const d = m.date && r[m.date] ? parseDate(r[m.date]) : null;
+                return {
+                    r,
+                    d,
+                    cat: m.cat ? (String(r[m.cat] ?? '').trim() || 'Unknown') : null,
+                    prod: m.prod ? String(r[m.prod] ?? '').trim() : null,
+                    s: m.sales ? num(r[m.sales]) : NaN,
+                    ad: m.ad ? num(r[m.ad]) : NaN,
+                    o: m.order ? r[m.order] : null
+                };
+            });
+        }
+
+        function setData(raw, cols, name, demo) {
+            S.raw = raw;
+            S.cols = cols;
+            S.name = name;
+            S.demo = demo;
+            derive();
+            build();
+
+            $('#fFrom').value = $('#fTo').value = $('#fQ').value = '';
+            const cs = [...new Set(S.rows.map(x => x.cat).filter(Boolean))].sort();
+            $('#fCat').innerHTML = '<option value="">All</option>' + cs.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+
+            const nc = numCols();
+            const opt = nc.length ? nc.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('') : '<option value="">(no numeric columns)</option>';
+            $('#rx').innerHTML = opt;
+            $('#ry').innerHTML = opt;
+
+            $('#rx').value = S.m.ad && nc.includes(S.m.ad) ? S.m.ad : (nc[0] || '');
+            $('#ry').value = S.m.sales && nc.includes(S.m.sales) ? S.m.sales : (nc[1] || nc[0] || '');
+
+            mapUI();
+            render();
+        }
+
+        function mapUI() {
+            const L = {
+                date: 'Order date',
+                cat: 'Category',
+                prod: 'Product',
+                order: 'Order ID',
+                sales: 'Revenue / Sales',
+                ad: 'Ad spend',
+                qty: 'Quantity',
+                price: 'Unit price'
+            };
+
+            $('#map').innerHTML = Object.keys(L).map(k => `
+                <label>${L[k]}
+                    <select data-k="${k}">
+                        <option value="">(none)</option>
+                        ${S.cols.map(c => `<option value="${esc(c)}" ${S.m[k] === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}
+                    </select>
+                </label>
+            `).join('');
+
+            $('#map').querySelectorAll('select').forEach(s => {
+                s.onchange = () => {
+                    S.m[s.dataset.k] = s.value;
+                    if (!S.m.sales && S.m.qty && S.m.price) {
+                        derive();
+                    }
+                    build();
+                    if (s.dataset.k === 'cat') {
+                        const curCat = $('#fCat').value;
+                        const cs = [...new Set(S.rows.map(x => x.cat).filter(Boolean))].sort();
+                        $('#fCat').innerHTML = '<option value="">All</option>' + cs.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+                        if (cs.includes(curCat)) $('#fCat').value = curCat;
+                    }
+                    const nc = numCols();
+                    if (s.dataset.k === 'ad' && s.value && nc.includes(s.value)) {
+                        $('#rx').value = s.value;
+                    }
+                    if (s.dataset.k === 'sales' && s.value && nc.includes(s.value)) {
+                        $('#ry').value = s.value;
+                    }
+                    render();
+                };
+            });
+        }
+
+        function filt() {
+            const a = $('#fFrom').value;
+            const b = $('#fTo').value;
+            const c = $('#fCat').value;
+            const q = $('#fQ').value.trim().toLowerCase();
+
+            const da = a ? new Date(a + 'T00:00:00') : null;
+            const db = b ? new Date(b + 'T23:59:59') : null;
+
+            return S.rows.filter(x => {
+                if (da || db) {
+                    if (!x.d) return false;
+                    if (da && x.d < da) return false;
+                    if (db && x.d > db) return false;
+                }
+                if (c && x.cat !== c) return false;
+                if (q && !(x.prod || '').toLowerCase().includes(q)) return false;
+                return true;
+            });
+        }
+
+        const CH = {};
+        function chart(id, type, data, opt) {
+            if (CH[id]) {
+                CH[id].destroy();
+                delete CH[id];
+            }
+            const el = $('#' + id);
+            if (!el) return;
+            const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+            CH[id] = new Chart(el, {
+                type,
+                data,
+                options: Object.assign({
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: rm ? 0 : 700 },
+                    plugins: { legend: { display: false } }
+                }, opt)
+            });
+        }
+
+        function guard(id, ok, msg) {
+            const n = $('#' + id + 'n');
+            if (CH[id] && !ok) {
+                CH[id].destroy();
+                delete CH[id];
+            }
+            if (n) {
+                n.style.display = ok ? 'none' : 'flex';
+                n.textContent = ok ? '' : msg;
+            }
+            return ok;
+        }
+
+        const ax = (x, y) => ({
+            scales: {
+                x: { title: { display: !!x, text: x } },
+                y: { title: { display: !!y, text: y }, beginAtZero: true }
+            }
+        });
+
+        function grp(F, key, val) {
+            const m = new Map();
+            F.forEach(x => {
+                const k = key(x);
+                if (k == null || k === '') return;
+                m.set(k, (m.get(k) || 0) + val(x));
+            });
+            return m;
+        }
+
+        const mon = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+
+        function render() {
+            const F = S.F = filt();
+            const V = F.filter(x => isFinite(x.s));
+            const m = S.m;
+
+            $('#srcTag').textContent = S.demo ? 'DEMO DATA (synthetic, seeded) — not real sales' : 'YOUR DATA: ' + S.name;
+            $('#srcTag').className = 'tag' + (S.demo ? '' : ' up');
+
+            $('#fInfo').textContent = F.length + ' / ' + S.rows.length + ' ROWS';
+
+            const rev = sum(V.map(x => x.s));
+            const validOrders = m.order ? new Set(F.map(x => x.o).filter(o => o != null && o !== '')).size : 0;
+            const orderCount = validOrders > 0 ? validOrders : F.length;
+            const aov = orderCount > 0 && isFinite(rev) ? rev / orderCount : NaN;
+
+            const mm = grp(V.filter(x => x.d), x => mon(x.d), x => x.s);
+            const mk = [...mm.keys()].sort();
+            let gr = NaN;
+            if (mk.length >= 2) {
+                const a = mm.get(mk[mk.length - 2]);
+                const b = mm.get(mk[mk.length - 1]);
+                if (a && a !== 0) gr = (b - a) / a * 100;
+            }
+
+            const st = [
+                ['Total Revenue', m.sales ? f0(rev) : 'n/a', 'var(--coral)'],
+                ['Total Orders', f0(orderCount), 'var(--pink)'],
+                ['Avg Order Value', m.sales ? f2(aov) : 'n/a', 'var(--yellow)'],
+                ['Sales Growth (last month vs prior)', isFinite(gr) ? (gr >= 0 ? '+' : '') + f2(gr) + '%' : 'n/a', isFinite(gr) && gr < 0 ? 'var(--coral)' : 'var(--mint)']
+            ];
+
+            $('#stats').innerHTML = st.map(s => `
+                <div class="card stat reveal" style="--c:${s[2]}">
+                    <div class="v">${s[1]}</div>
+                    <div class="l">${s[0]}</div>
+                </div>
+            `).join('');
+
+            const none = !F.length ? 'No rows match the current filters.' : '';
+
+            // 1. Sales Over Time (Monthly Revenue)
+            if (guard('c1', m.date && mk.length > 0 && !none, none || 'Needs a date column and revenue.')) {
+                chart('c1', 'line', {
+                    labels: mk,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: mk.map(k => mm.get(k)),
+                        borderColor: '#ff5a4d',
+                        backgroundColor: '#ff5a4d55',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#ffd60a',
+                        pointBorderColor: '#1b1b2f',
+                        pointRadius: 5
+                    }]
+                }, ax('Month', 'Revenue'));
+            }
+
+            // 2. Revenue by Category
+            const cr = grp(V, x => x.cat, x => x.s);
+            const ck = [...cr.keys()].sort((a, b) => cr.get(b) - cr.get(a));
+            if (guard('c2', m.cat && ck.length > 0 && !none, none || 'Needs a category column and revenue.')) {
+                chart('c2', 'bar', {
+                    labels: ck,
+                    datasets: [{
+                        data: ck.map(k => cr.get(k)),
+                        backgroundColor: P,
+                        borderColor: '#1b1b2f',
+                        borderWidth: 3
+                    }]
+                }, ax('Category', 'Revenue'));
+            }
+
+            // 3. Top-selling products
+            const pr = grp(V, x => x.prod || null, x => x.s);
+            const pk = [...pr.keys()].sort((a, b) => pr.get(b) - pr.get(a)).slice(0, 8);
+            if (guard('c3', m.prod && pk.length > 0 && !none, none || 'Needs a product column and revenue.')) {
+                chart('c3', 'bar', {
+                    labels: pk,
+                    datasets: [{
+                        data: pk.map(k => pr.get(k)),
+                        backgroundColor: '#ff4fa3',
+                        borderColor: '#1b1b2f',
+                        borderWidth: 3
+                    }]
+                }, Object.assign({ indexAxis: 'y' }, ax('Revenue', '')));
+            }
+
+            // 4. Orders by Category (Doughnut)
+            const oc = grp(F, x => x.cat, () => 1);
+            const ok = [...oc.keys()];
+            if (guard('c4', m.cat && ok.length > 0 && !none, none || 'Needs a category column.')) {
+                chart('c4', 'doughnut', {
+                    labels: ok,
+                    datasets: [{
+                        data: ok.map(k => oc.get(k)),
+                        backgroundColor: P,
+                        borderColor: '#1b1b2f',
+                        borderWidth: 3
+                    }]
+                }, { plugins: { legend: { display: true, position: 'right' } } });
+            }
+
+            // 5. Sales distribution (order value histogram)
+            const vals = V.map(x => x.s);
+            if (guard('c5', vals.length > 1 && !none, none || 'Needs numeric revenue values.')) {
+                let lo = vals[0], hi = vals[0];
+                for (let i = 1; i < vals.length; i++) {
+                    if (vals[i] < lo) lo = vals[i];
+                    if (vals[i] > hi) hi = vals[i];
+                }
+                const k = 10;
+                const w = (hi - lo) / k || 1;
+                const bins = Array(k).fill(0);
+                vals.forEach(v => bins[Math.min(k - 1, Math.floor((v - lo) / w))]++);
+
+                chart('c5', 'bar', {
+                    labels: bins.map((_, i) => f0(lo + i * w) + '–' + f0(lo + (i + 1) * w)),
+                    datasets: [{
+                        data: bins,
+                        backgroundColor: '#2bc4e8',
+                        borderColor: '#1b1b2f',
+                        borderWidth: 3,
+                        categoryPercentage: 1,
+                        barPercentage: 1
+                    }]
+                }, ax('Order value', 'Number of orders'));
+            }
+
+            // 6. Revenue vs Advertising Spend scatter
+            const sp = F.filter(x => isFinite(x.s) && isFinite(x.ad)).map(x => ({ x: x.ad, y: x.s }));
+            if (guard('c6', m.ad && m.sales && sp.length > 0 && !none, none || 'Needs advertising-spend and revenue columns.')) {
+                chart('c6', 'scatter', {
+                    datasets: [{
+                        data: sp,
+                        backgroundColor: '#ff4fa3aa',
+                        borderColor: '#1b1b2f',
+                        pointRadius: 4
+                    }]
+                }, ax('Advertising spend', 'Revenue'));
+            }
+
+            regress();
+            insights(V, cr, ck, mm, mk, pr, gr);
+            explorer();
+        }
+
+        function fit(p) {
+            const n = p.length;
+            if (n < 3) return { err: 'Need at least 3 valid (X, Y) pairs to fit a line; found ' + n + '.' };
+
+            const mx = sum(p.map(a => a[0])) / n;
+            const my = sum(p.map(a => a[1])) / n;
+            let sxx = 0, sxy = 0;
+            p.forEach(([x, y]) => {
+                sxx += (x - mx) ** 2;
+                sxy += (x - mx) * (y - my);
+            });
+
+            if (sxx === 0) return { err: 'All X values are identical, so a slope cannot be calculated. Choose a different X column.' };
+
+            const b1 = sxy / sxx;
+            const b0 = my - b1 * mx;
+            const res = p.map(([x, y]) => y - (b0 + b1 * x));
+            const sse = sum(res.map(e => e * e));
+            const sst = sum(p.map(a => (a[1] - my) ** 2));
+
+            const xs = p.map(a => a[0]);
+            let minX = xs[0], maxX = xs[0];
+            for (let i = 1; i < xs.length; i++) {
+                if (xs[i] < minX) minX = xs[i];
+                if (xs[i] > maxX) maxX = xs[i];
+            }
+
+            const r2 = sst === 0 ? (sse === 0 ? 1 : 0) : Math.max(0, 1 - sse / sst);
+            return {
+                n,
+                b0,
+                b1,
+                r2,
+                mae: sum(res.map(Math.abs)) / n,
+                rmse: Math.sqrt(sse / n),
+                min: minX,
+                max: maxX,
+                res
+            };
+        }
+
+        let R = null;
+
+        function regress() {
+            const X = $('#rx').value;
+            const Y = $('#ry').value;
+            const pts = [];
+            let skip = 0;
+
+            S.F.forEach(x => {
+                const a = num(x.r[X]);
+                const b = num(x.r[Y]);
+                if (isFinite(a) && isFinite(b)) pts.push([a, b]);
+                else skip++;
+            });
+
+            if (!X || !Y) {
+                R = { err: 'Select numeric X and Y columns.' };
+            } else if (X === Y) {
+                R = { err: 'X and Y must be different columns.' };
+            } else {
+                R = fit(pts);
+            }
+
+            $('#rErr').innerHTML = R.err ? `<div class="err">⚠ ${esc(R.err)}</div>` : '';
+
+            if (R.err) {
+                ['r1', 'r2'].forEach(i => {
+                    if (CH[i]) { CH[i].destroy(); delete CH[i]; }
+                });
+                $('#eq').textContent = 'ŷ = b₀ + b₁x';
+                $('#mets').innerHTML = '';
+                $('#pout').textContent = '–';
+                $('#avp').innerHTML = '';
+                $('#rUse').textContent = '';
+                $('#pwarn').innerHTML = '';
+                return;
+            }
+
+            const sg = R.b1 < 0 ? '−' : '+';
+            $('#eq').innerHTML = `ŷ = ${f2(R.b0)} ${sg} ${f2(Math.abs(R.b1))}·x<br><small style="font-size:.5rem;color:#fff">x = ${esc(X)} → ŷ = ${esc(Y)}</small>`;
+
+            $('#mets').innerHTML = [
+                ['R²', isFinite(R.r2) ? R.r2.toFixed(4) : '–', 'fit'],
+                ['MAE', f2(R.mae), 'avg error'],
+                ['RMSE', f2(R.rmse), 'typical error'],
+                ['n', R.n, 'observations'],
+                ['Slope b₁', f2(R.b1), 'Y per +1 X'],
+                ['Intercept b₀', f2(R.b0), 'Y when X=0']
+            ].map(a => `<div><small>${a[0]}</small><b>${a[1]}</b><small>${a[2]}</small></div>`).join('');
+
+            $('#rUse').textContent = `${R.n} rows used; ${skip} excluded for a missing or non-numeric X or Y value.`;
+
+            const y0 = R.b0 + R.b1 * R.min;
+            const y1 = R.b0 + R.b1 * R.max;
+
+            chart('r1', 'scatter', {
+                datasets: [
+                    {
+                        label: 'Observed',
+                        data: pts.map(a => ({ x: a[0], y: a[1] })),
+                        backgroundColor: '#ff4fa3aa',
+                        borderColor: '#1b1b2f',
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Best fit',
+                        type: 'line',
+                        data: [{ x: R.min, y: y0 }, { x: R.max, y: y1 }],
+                        borderColor: '#ffa500',
+                        borderWidth: 4,
+                        pointRadius: 0
+                    }
+                ]
+            }, Object.assign(ax(X, Y), { plugins: { legend: { display: true } } }));
+
+            chart('r2', 'scatter', {
+                datasets: [
+                    {
+                        data: pts.map((a, i) => ({ x: a[0], y: R.res[i] })),
+                        backgroundColor: '#2bc4e8',
+                        borderColor: '#1b1b2f',
+                        pointRadius: 3
+                    },
+                    {
+                        type: 'line',
+                        data: [{ x: R.min, y: 0 }, { x: R.max, y: 0 }],
+                        borderColor: '#ff5a4d',
+                        borderWidth: 2,
+                        pointRadius: 0
+                    }
+                ]
+            }, {
+                scales: {
+                    x: { title: { display: true, text: X } },
+                    y: { title: { display: true, text: 'Residual' } }
+                }
+            });
+
+            $('#avp').innerHTML = '<thead><tr><th>#</th><th>X</th><th>Actual Y</th><th>Predicted Y</th><th>Error</th></tr></thead><tbody>' +
+                pts.slice(0, 10).map((a, i) => `<tr><td>${i + 1}</td><td>${f2(a[0])}</td><td>${f2(a[1])}</td><td>${f2(R.b0 + R.b1 * a[0])}</td><td>${f2(R.res[i])}</td></tr>`).join('') +
+                '</tbody>';
+
+            const sl = $('#psl');
+            sl.min = R.min;
+            sl.max = R.max;
+            sl.step = (R.max - R.min) / 200 || 1;
+            if (!$('#pin').value || document.activeElement !== $('#pin')) {
+                $('#pin').value = f2((R.min + R.max) / 2).replace(/,/g, '');
+            }
+            predict();
+        }
+
+        function predict() {
+            if (!R || R.err) {
+                $('#pout').textContent = '–';
+                $('#pwarn').innerHTML = '';
+                return;
+            }
+            const x = parseFloat($('#pin').value);
+            if (!isFinite(x)) {
+                $('#pout').textContent = '–';
+                $('#pwarn').innerHTML = '';
+                return;
+            }
+
+            $('#psl').value = x;
+            $('#pout').textContent = f2(R.b0 + R.b1 * x);
+            const out = x < R.min || x > R.max;
+            $('#pwarn').innerHTML = out ? `<div class="warn">⚠ X=${f2(x)} is outside the observed range (${f2(R.min)}–${f2(R.max)}). This is extrapolation and may be unreliable.</div>` : '';
+        }
+
+        $('#pin').oninput = predict;
+        $('#psl').oninput = e => {
+            $('#pin').value = e.target.value;
+            predict();
+        };
+
+        $('#rx').onchange = $('#ry').onchange = regress;
+
+        $('#selfTest').onclick = () => {
+            const t = fit([[1, 2], [2, 4], [3, 5], [4, 4], [5, 5]]);
+            const ok = Math.abs(t.b1 - 0.6) < 1e-9 && Math.abs(t.b0 - 2.2) < 1e-9 && Math.abs(t.r2 - 0.6) < 1e-9;
+            $('#stOut').innerHTML = ` <b>${ok ? '✅ PASS' : '❌ FAIL'}</b>: b₁=${t.b1.toFixed(3)} (exp 0.6), b₀=${t.b0.toFixed(3)} (exp 2.2), R²=${t.r2.toFixed(3)} (exp 0.6)`;
+        };
+
+        function insights(V, cr, ck, mm, mk, pr, gr) {
+            const I = [];
+            const add = (i, t, b, c) => I.push({ i, t, b, c });
+
+            if (ck.length > 1) {
+                const tot = sum([...cr.values()]);
+                add('★', 'Best category', `${ck[0]} leads with ${f0(cr.get(ck[0]))} revenue (${f2(tot ? cr.get(ck[0]) / tot * 100 : 0)}% of total); ${ck[ck.length - 1]} is lowest.`, 'var(--mint)');
+            } else {
+                add('★', 'Best category', 'Not enough category data (need a category column with 2+ values).', '#bbb');
+            }
+
+            if (mk.length >= 1) {
+                const p = mk.reduce((a, b) => mm.get(b) > mm.get(a) ? b : a);
+                add('▲', 'Peak period', `${p} had the highest monthly revenue: ${f0(mm.get(p))}.`, 'var(--yellow)');
+            } else {
+                add('▲', 'Peak period', 'Needs valid dates and revenue.', '#bbb');
+            }
+
+            if (isFinite(gr)) {
+                add('⚡', 'Recent change', `Revenue ${gr >= 0 ? 'rose' : 'fell'} ${f2(Math.abs(gr))}% in the latest month compared with the previous one (partial months can distort this).`, gr >= 0 ? 'var(--mint)' : 'var(--coral)');
+            } else {
+                add('⚡', 'Recent change', 'Need at least two months of dated data.', '#bbb');
+            }
+
+            const pk = [...pr.keys()].sort((a, b) => pr.get(b) - pr.get(a));
+            if (pk.length) {
+                const t = sum([...pr.values()]);
+                add('♥', 'Top product', `${pk[0]} contributes ${f2(t ? pr.get(pk[0]) / t * 100 : 0)}% of revenue; the top 3 together contribute ${f2(t ? sum(pk.slice(0, 3).map(k => pr.get(k))) / t * 100 : 0)}%.`, 'var(--pink)');
+            } else {
+                add('♥', 'Top product', 'Needs product and revenue columns.', '#bbb');
+            }
+
+            if (R && !R.err) {
+                const r2val = isFinite(R.r2) ? R.r2 : 0;
+                const r = Math.sign(R.b1) * Math.sqrt(Math.max(0, r2val));
+                const a = Math.abs(r);
+                const w = a < 0.3 ? 'weak' : a < 0.7 ? 'moderate' : 'strong';
+                add('◆', 'X–Y relationship', `${$('#rx').value} and ${$('#ry').value} show a ${w} ${r >= 0 ? 'positive' : 'negative'} association (r = ${r.toFixed(2)}, R² = ${r2val.toFixed(2)}). Association only, not proof of cause.`, 'var(--cyan)');
+
+                const midX = R.min + (R.max - R.min) / 2;
+                add('✦', 'Model suggestion', `Each extra 1 unit of X is associated with ${f2(R.b1)} units of Y. At the average X (${f2(midX)}) the model predicts ${f2(R.b0 + R.b1 * midX)}.` + (R.n < 30 ? ' Only ' + R.n + ' observations, so treat with caution.' : ''), 'var(--orange)');
+            } else {
+                add('◆', 'X–Y relationship', R ? R.err : 'No regression available.', '#bbb');
+            }
+
+            $('#insBox').innerHTML = I.map(x => `
+                <div class="card" style="--c:${x.c}">
+                    <div class="ic">${x.i}</div>
+                    <h3>${esc(x.t)}</h3>
+                    <p>${esc(x.b)}</p>
+                </div>
+            `).join('');
+        }
+
+        let sortK = null, asc = true;
+
+        function explorer() {
+            const nc = numCols();
+            const q = $('#eq2').value.trim().toLowerCase();
+
+            const miss = S.cols.reduce((a, c) => a + S.raw.filter(r => r[c] === '' || r[c] == null).length, 0);
+
+            $('#meta').innerHTML = `<b>${S.raw.length}</b> rows × <b>${S.cols.length}</b> columns · numeric: ${nc.map(esc).join(', ') || 'none'} · categorical: ${esc(S.cols.filter(c => !nc.includes(c)).join(', ') || 'none')} · missing cells: <b>${miss}</b>`;
+
+            let rows = S.raw.filter(r => !q || S.cols.some(c => String(r[c] ?? '').toLowerCase().includes(q)));
+
+            if (sortK) {
+                rows = [...rows].sort((a, b) => {
+                    const x = a[sortK], y = b[sortK];
+                    const nx = num(x), ny = num(y);
+                    const c = isFinite(nx) && isFinite(ny) ? nx - ny : String(x ?? '').localeCompare(String(y ?? ''));
+                    return asc ? c : -c;
+                });
+            }
+
+            $('#tbl').innerHTML = '<thead><tr>' +
+                S.cols.map(c => `<th data-c="${esc(c)}">${esc(c)}${sortK === c ? (asc ? ' ▲' : ' ▼') : ''}</th>`).join('') +
+                '</tr></thead><tbody>' +
+                rows.slice(0, 60).map(r => '<tr>' + S.cols.map(c => `<td>${esc(r[c] ?? '')}</td>`).join('') + '</tr>').join('') +
+                (rows.length > 60 ? `<tr><td colspan="${S.cols.length}">Showing 60 of ${rows.length} matching rows</td></tr>` : '') +
+                '</tbody>';
+
+            $('#tbl').querySelectorAll('th').forEach(h => {
+                h.onclick = () => {
+                    const c = h.dataset.c;
+                    asc = (sortK === c) ? !asc : true;
+                    sortK = c;
+                    explorer();
+                };
+            });
+
+            $('#desc').innerHTML = '<thead><tr><th>Column</th><th>Valid</th><th>Missing</th><th>Mean</th><th>Median</th><th>Min</th><th>Max</th><th>Std dev</th></tr></thead><tbody>' +
+                nc.map(c => {
+                    const v = S.raw.map(r => num(r[c])).filter(isFinite).sort((a, b) => a - b);
+                    const n = v.length;
+                    const mu = n ? sum(v) / n : NaN;
+                    const sd = n > 1 ? Math.sqrt(sum(v.map(x => (x - mu) ** 2)) / (n - 1)) : NaN;
+                    const md = n ? (n % 2 ? v[(n - 1) / 2] : (v[n / 2 - 1] + v[n / 2]) / 2) : NaN;
+
+                    return `<tr><td>${esc(c)}</td><td>${n}</td><td>${S.raw.length - n}</td><td>${f2(mu)}</td><td>${f2(md)}</td><td>${f2(v[0])}</td><td>${f2(v[n - 1])}</td><td>${f2(sd)}</td></tr>`;
+                }).join('') + '</tbody>';
+        }
+
+        $('#eq2').oninput = explorer;
+
+        ['fFrom', 'fTo', 'fCat', 'fQ'].forEach(i => $('#' + i).oninput = render);
+
+        $('#fReset').onclick = () => {
+            $('#fFrom').value = $('#fTo').value = $('#fQ').value = $('#fCat').value = '';
+            render();
+        };
+
+        $('#resetDemo').onclick = () => {
+            $('#upErr').innerHTML = '';
+            $('#file').value = '';
+            const r = demoData();
+            setData(r, Object.keys(r[0]), 'demo', true);
+        };
+
+        $('#file').onchange = e => {
+            const f = e.target.files[0];
+            $('#upErr').innerHTML = '';
+            if (!f) return;
+            const bad = t => $('#upErr').innerHTML = `<div class="err">⚠ ${esc(t)}</div>`;
+
+            if (!/\.(csv|txt)$/i.test(f.name) && !/csv|text/.test(f.type)) {
+                return bad('Unsupported file type. Please upload a .csv file.');
+            }
+
+            Papa.parse(f, {
+                header: true,
+                skipEmptyLines: 'greedy',
+                transformHeader: h => h.trim().replace(/^\ufeff/, ''),
+                complete: r => {
+                    const cols = (r.meta.fields || []).map(c => c.trim()).filter(Boolean);
+
+                    if (!r.data || !r.data.length || cols.length < 2) {
+                        return bad('Could not read data: the file needs a header row, at least 2 columns and 1+ data rows.');
+                    }
+
+                    const fatal = (r.errors || []).filter(x => x.type === 'Delimiter' && cols.length < 2);
+                    if (fatal.length) {
+                        return bad('Malformed CSV: delimiter not detected.');
+                    }
+
+                    // Filter out empty rows
+                    const cleanRows = r.data.filter(row => row && Object.values(row).some(v => v != null && String(v).trim() !== ''));
+                    if (!cleanRows.length) {
+                        return bad('Could not read data: all rows in the file are empty.');
+                    }
+
+                    cleanRows.forEach(x => {
+                        cols.forEach(c => {
+                            if (x[c] == null) x[c] = '';
+                        });
+                    });
+
+                    setData(cleanRows, cols, f.name, false);
+
+                    if (r.errors && r.errors.length) {
+                        $('#upErr').innerHTML = `<div class="warn">Loaded with ${r.errors.length} row warning(s) (e.g. rows with uneven column counts). Check the table.</div>`;
+                    }
+                },
+                error: er => bad('Parse error: ' + (er && er.message ? er.message : String(er)))
+            });
+        };
+
+        const d0 = demoData();
+        setData(d0, Object.keys(d0[0]), 'demo', true);
+
+    </script>
+</body>
+
+</html>
